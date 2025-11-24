@@ -12,7 +12,7 @@ Here's how it simplifies your workflow: just **select your data file**, **pick a
 
 Your data's privacy and security are paramount; rest assured, uploaded data and API Keys are strictly for one-time use and are neither saved nor shared.
 
-![Screenshot 2024-02-12 at 16 01 01]([https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/4167b04c-0853-4703-87a4-6c2994e30f9e](https://github.com/dataelvisliang/Streamline-Analyst/blob/main/assets/AI%20Analytics%20Engine.png))
+![AI Analytics Engine](https://github.com/dataelvisliang/Streamline-Analyst/blob/main/assets/AI%20Analytics%20Engine.png)
 
 Looking ahead, we plan to enhance AI Analytics Engine with advanced features like ***Natural Language Processing (NLP)***, ***neural networks***, and ***object detection (utilizing YOLO)***, broadening its capabilities to meet more diverse data analysis needs.
 
@@ -181,15 +181,6 @@ cd app
 streamlit run app.py
 ```
 
-### Verifying Installation
-
-After running the app, you should see:
-- ✅ Streamlit opens in your browser
-- ✅ "Welcome to AI Analytics Engine!" title
-- ✅ API key input field (password type)
-- ✅ Model selection dropdown showing free models
-- ✅ File upload section
-
 ## 🔍 AI Logging Features
 
 All AI interactions are automatically logged with full transparency:
@@ -251,41 +242,6 @@ python app/view_ai_logs.py --function decide_target_attribute
 
 For more details, see `app/logs/README.md`
 
-## 💰 Cost Comparison
-
-### Before (Original - OpenAI Direct):
-- **GPT-4 Turbo**: ~$0.27 per complete analysis
-- **GPT-3.5 Turbo**: ~$0.0115 per complete analysis
-- **Total Monthly** (100 analyses): $27 - $115
-
-### After (This Fork - OpenRouter Free Models):
-- **Grok-4.1-Fast**: $0.00 per analysis ✨
-- **GPT-OSS-20B**: $0.00 per analysis ✨
-- **Total Monthly** (unlimited analyses): **$0.00**
-- **Savings**: **100% cost reduction**
-
-## 🛠️ Troubleshooting
-
-### "API key is required" error?
-→ Enter your OpenRouter API key in the password field at the top of the page
-
-### "KeyError: ['mean', '50%', 'std']" error?
-→ This bug is fixed in this version. Make sure you're using the latest code.
-
-### Import errors?
-→ Run: `pip install -r requirements.txt`
-
-### Model not working?
-→ Check your internet connection and verify your API key is valid at [OpenRouter.ai](https://openrouter.ai/)
-
-### Can't find log files?
-→ Logs are created in `app/logs/` when you make your first AI call. Directory is auto-created.
-
-### Need more help?
-- Check `app/logs/README.md` for logging documentation
-- Visit [OpenRouter Documentation](https://openrouter.ai/docs)
-- Join [OpenRouter Discord](https://discord.gg/openrouter)
-
 ## 📚 Additional Resources
 
 ### Model Information:
@@ -297,47 +253,6 @@ For more details, see `app/logs/README.md`
 - **OpenRouter API**: https://openrouter.ai/docs
 - **Original Project**: https://github.com/Wilson-ZheLin/Streamline-Analyst
 - **Issue Tracking**: https://github.com/dataelvisliang/Streamline-Analyst/issues
-
-## 🎯 Credits & Attribution
-
-This project is built upon the excellent work of **[Zhe Lin](https://github.com/Wilson-ZheLin)** and the original [Streamline Analyst](https://github.com/Wilson-ZheLin/Streamline-Analyst) project.
-
-### Key Modifications in This Fork:
-
-#### ✅ API Migration
-- Migrated from OpenAI API to OpenRouter AI
-- Removed LangChain dependency for better performance
-- Direct API calls using `requests` library
-
-#### ✅ Free Model Implementation
-- Added Grok-4.1-Fast (free, high-quality)
-- Added GPT-OSS-20B (free, fast processing)
-- Model selection in UI with clear "Free" indicators
-
-#### ✅ Security Enhancements
-- API key input through secure UI field (password type)
-- Keys never stored or saved
-- Better error messages with helpful links
-
-#### ✅ Comprehensive Logging System
-- All AI calls logged with prompts and responses
-- Daily log files for transparency
-- Built-in log analysis tools (`view_ai_logs.py`)
-- Real-time console logging
-
-#### ✅ Bug Fixes
-- Fixed KeyError with non-numeric data columns
-- Improved error handling throughout
-- Better handling of mixed data types
-
-#### ✅ Documentation & Branding
-- Rebranded to AI Analytics Engine
-- Enhanced documentation with migration guides
-- Clear attribution to original author
-- Comprehensive README updates
-
-### Migration Details:
-For technical details about the migration, see the migration guides included in the repository or the original migration package documentation.
 
 ## 📄 License
 
@@ -354,7 +269,5 @@ This project maintains the same license as the original Streamline Analyst proje
 ---
 
 **Ready to start?** Get your free OpenRouter API key and start analyzing data in 5 minutes! 🚀
-
-**Questions?** Check the troubleshooting section or open an issue on GitHub.
 
 **Cost:** $0.00 | **Setup Time:** 5 minutes | **Difficulty:** Easy ✨
