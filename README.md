@@ -245,8 +245,8 @@ For more details, see `app/logs/README.md`
 ## 📚 Additional Resources
 
 ### Model Information:
-- **Grok-4.1-Fast**: High-quality analysis, comparable to GPT-4
-- **GPT-OSS-20B**: Fast processing, great for quick analyses
+- **Grok-4.1-Fast**: A model that combines frontier tool-calling performance with blazing-fast inference and cost effectiveness.
+- **GPT-OSS-20B**: Medium-sized open-weight model for low latency, local, or specialized use-cases (21B parameters with 3.6B active parameters).
 - **More models**: Check [OpenRouter Models](https://openrouter.ai/models)
 
 ### Documentation:
