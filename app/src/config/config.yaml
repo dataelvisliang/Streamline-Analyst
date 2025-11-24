@@ -1,6 +1,6 @@
 openai_api_key: "YOUR_OPENAI_API_KEY"
-model4_name: "gpt-4-1106-preview"
-model3_name: "gpt-3.5-turbo-1106"
+model4_name: "x-ai/grok-4.1-fast:free"
+model3_name: "openai/gpt-oss-20b:free"
 numeric_attribute_template: |
   You are a data analyst. You are cleaning the data and processing the attributes in the data that are not numeric. The columns to be processed include: {attributes}. The first 20 items of these data are as follows:
   {data_frame_head}

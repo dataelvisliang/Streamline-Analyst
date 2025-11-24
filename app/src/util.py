@@ -95,14 +95,26 @@ def contain_null_attributes_info(df):
     :return: A tuple containing:
              - A list of columns that contain null values.
              - A string representation of data types for these columns.
-             - A CSV-formatted string containing descriptive statistics (count, mean, median, and standard deviation) for these columns.
+             - A CSV-formatted string containing descriptive statistics for these columns.
                Returns an empty list, -1, and -1 if no columns with null values are found.
     """
     attributes = df.columns[df.isnull().any()].tolist()
     if not attributes: return [], -1, -1
 
-    description_info = df[attributes].describe(percentiles=[.5])
-    description_info = description_info.loc[['count', 'mean', '50%', 'std']].round(2).to_csv()
+    # Get description for all columns with nulls
+    description_info = df[attributes].describe(percentiles=[.5], include='all')
+    
+    # Only select the rows that exist in the description
+    available_rows = []
+    for row in ['count', 'mean', '50%', 'std']:
+        if row in description_info.index:
+            available_rows.append(row)
+    
+    # If we have some rows, use them; otherwise get whatever describe() gives us
+    if available_rows:
+        description_info = description_info.loc[available_rows]
+    
+    description_info = description_info.round(2).to_csv()
 
     dtypes_df = df[attributes].dtypes
     types_info = "\n".join([f"{index}:{dtype}" for index, dtype in dtypes_df.items()])

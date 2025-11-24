@@ -8,12 +8,12 @@ from regression_model import regression_model_pipeline
 from visualization import data_visualization
 from src.util import read_file_from_streamlit
 
-st.set_page_config(page_title="Streamline Analyst", page_icon=":rocket:", layout="wide")
+st.set_page_config(page_title="AI Analytics Engine", page_icon=":rocket:", layout="wide")
 
 # TITLE SECTION
 with st.container():
     st.subheader("Hello there 👋")
-    st.title("Welcome to Streamline Analyst!")
+    st.title("Welcome to AI Analytics Engine!")
     if 'initialized' not in st.session_state:
         st.session_state.initialized = True
     if st.session_state.initialized:
@@ -35,7 +35,7 @@ with st.container():
 
     left_column_r1, right_column_r1 = st.columns([6, 4])
     with left_column_r1:
-        st.header("What can Streamline Analyst do?")
+        st.header("What can AI Analytics Engine do?")
         st.write(introduction_message()[0])
     with right_column_r1:
         if st.session_state.lottie:
@@ -56,11 +56,22 @@ with st.container():
     left_column, right_column = st.columns([6, 4])
     with left_column:
         API_KEY = st.text_input(
-            "Your API Key won't be stored or shared!",
-            placeholder="Enter your API key here...",
+            "Your OpenRouter API Key",
+            placeholder="Enter your OpenRouter API key here... (e.g., sk-or-v1-...)",
+            type="password",
+            help="Get your free API key at https://openrouter.ai/"
         )
-        st.write("👆Your OpenAI API key:")
-        uploaded_file = st.file_uploader("Choose a data file. Your data won't be stored as well!", accept_multiple_files=False, type=['csv', 'json', 'xls', 'xlsx'])
+        if not API_KEY:
+            st.caption("🔑 Your API Key won't be stored or shared!")
+            st.info("📌 **Don't have an API key?** Get one for free at [OpenRouter.ai](https://openrouter.ai/)")
+        else:
+            st.caption("✅ API key provided")
+        
+        uploaded_file = st.file_uploader(
+            "Choose a data file. Your data won't be stored as well!", 
+            accept_multiple_files=False, 
+            type=['csv', 'json', 'xls', 'xlsx']
+        )
         if uploaded_file:
             if uploaded_file.getvalue():
                 uploaded_file.seek(0)
@@ -71,12 +82,16 @@ with st.container():
         
     with right_column:
         SELECTED_MODEL = st.selectbox(
-        'Which OpenAI model do you want to use?',
-        ('GPT-4-Turbo', 'GPT-3.5-Turbo'))
+            'Which AI model do you want to use?',
+            ('Grok-4.1-Fast (Free)', 'GPT-OSS-20B (Free)'),
+            help="Both models are completely free! Grok-4.1 is higher quality, GPT-OSS is faster."
+        )
 
         MODE = st.selectbox(
-        'Select proper data analysis mode',
-        ('Predictive Classification', 'Clustering Model', 'Regression Model', 'Data Visualization'))
+            'Select proper data analysis mode',
+            ('Predictive Classification', 'Clustering Model', 'Regression Model', 'Data Visualization'),
+            help="Data Visualization mode doesn't require an API key"
+        )
         
         st.write(f'Model selected: :green[{SELECTED_MODEL}]')
         st.write(f'Data analysis mode: :green[{MODE}]')
@@ -94,7 +109,7 @@ with st.container():
 
     # Start Analysis
     if st.session_state.button_clicked:
-        GPT_MODEL = 4 if SELECTED_MODEL == 'GPT-4-Turbo' else 3.5
+        GPT_MODEL = 4 if SELECTED_MODEL == 'Grok-4.1-Fast (Free)' else 3.5
         with st.container():
             if "DF_uploaded" not in st.session_state:
                 st.error("File is empty!")
@@ -107,3 +122,5 @@ with st.container():
                     regression_model_pipeline(st.session_state.DF_uploaded, API_KEY, GPT_MODEL)
                 elif MODE == 'Data Visualization':
                     data_visualization(st.session_state.DF_uploaded)
+
+# python -m streamlit run app.py
