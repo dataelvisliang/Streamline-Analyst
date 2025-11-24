@@ -12,7 +12,7 @@ Here's how it simplifies your workflow: just **select your data file**, **pick a
 
 Your data's privacy and security are paramount; rest assured, uploaded data and API Keys are strictly for one-time use and are neither saved nor shared.
 
-![Screenshot 2024-02-12 at 16 01 01](https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/4167b04c-0853-4703-87a4-6c2994e30f9e)
+![Screenshot 2024-02-12 at 16 01 01]([https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/4167b04c-0853-4703-87a4-6c2994e30f9e](https://github.com/dataelvisliang/Streamline-Analyst/blob/main/assets/AI%20Analytics%20Engine.png))
 
 Looking ahead, we plan to enhance AI Analytics Engine with advanced features like ***Natural Language Processing (NLP)***, ***neural networks***, and ***object detection (utilizing YOLO)***, broadening its capabilities to meet more diverse data analysis needs.
 
