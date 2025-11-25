@@ -1,92 +1,56 @@
 # AI Analytics Engine: A Data Analysis AI Agent
 
-**Built on the foundation of [Streamline Analyst](https://github.com/Wilson-ZheLin/Streamline-Analyst) by [Zhe Lin](https://github.com/Wilson-ZheLin)**
+**Built on [Streamline Analyst](https://github.com/Wilson-ZheLin/Streamline-Analyst) by [Zhe Lin](https://github.com/Wilson-ZheLin)**
 
----
+AI Analytics Engine is an open-source, LLM-powered application that automates data analysis workflows. Just **upload your data**, **ask questions** or **select an analysis mode**, and **start analyzing**.
 
-AI Analytics Engine 🪄 is a cutting-edge, open-source application powered by Large Language Models (LLMs) designed to revolutionize data analysis. This **Data Analysis Agent** effortlessly automates all the tasks such as data cleaning, preprocessing, and even complex operations like identifying target objects, partitioning test sets, and selecting the best-fit models based on your data. With AI Analytics Engine, results visualization and evaluation become seamless.
-
-Here's how it simplifies your workflow: just **select your data file**, **pick an analysis mode**, and **hit start**. AI Analytics Engine aims to expedite the data analysis process, making it accessible to all, regardless of their expertise in data analysis. It's built to empower users to process data and achieve high-quality visualizations with unparalleled efficiency🚀, and to execute high-performance modeling with the best strategies🔮.
-
-**Powered by OpenRouter AI** - Access multiple free AI models including Grok-4.1-Fast and GPT-OSS-20B without any cost!
-
-Your data's privacy and security are paramount; rest assured, uploaded data and API Keys are strictly for one-time use and are neither saved nor shared.
+**Powered by OpenRouter AI** - Access free AI models including Grok-4.1-Fast and GPT-OSS-20B!
 
 ![AI Analytics Engine](https://github.com/dataelvisliang/Streamline-Analyst/blob/main/assets/AI%20Analytics%20Engine.png)
 
-Looking ahead, we plan to enhance AI Analytics Engine with advanced features like ***Natural Language Processing (NLP)***, ***neural networks***, and ***object detection (utilizing YOLO)***, broadening its capabilities to meet more diverse data analysis needs.
+### Key Features
+- **AI Planning Assistant**: Chat with AI to determine the best analysis approach
+- **Automated Workflows**: Data cleaning, preprocessing, model selection, and training
+- **100% Free Models**: Grok-4.1-Fast and GPT-OSS-20B at zero cost
+- **Context-Aware Results**: AI summaries relate findings to your original questions
+- **Smart Fallbacks**: Helpful suggestions when analysis can't proceed
+- **Privacy First**: Data and API keys never stored or shared
 
-## 🎉 What's New in This Fork
+## 🎉 What's New
 
-### OpenRouter Migration (v2.0.0)
-- **🆓 100% Free AI Models**:
-  - **Grok-4.1-Fast**: High-quality analysis (completely free!)
-  - **GPT-OSS-20B**: Fast processing (completely free!)
-  - **Cost**: $0.00 per analysis - unlimited usage!
+### Latest Updates (v2.1.0 - Nov 2024)
+- **💬 AI Planning Assistant**: Chat interface to help determine the best analysis approach
+- **🤖 Autonomous Execution**: Planning agent automatically starts analysis when ready
+- **📊 Context-Aware Summaries**: AI relates findings to your original questions
+- **🔄 Smart Fallbacks**: Suggests alternatives when data doesn't fit selected mode
+- **📥 Better UX**: Download buttons repositioned, cleaner interface
 
-- **🔐 Enhanced Security**:
-  - API key entered securely through UI (password field)
-  - Never stored or saved anywhere
-  - No risk of accidentally committing to git
+### Version 2.0.0 Features
+- **🆓 100% Free AI Models**: Grok-4.1-Fast and GPT-OSS-20B
+- **🔐 Secure API Keys**: UI-based entry, never stored
+- **🔍 AI Logging**: Full transparency with daily log files
+- **⚡ 90% Faster**: Removed LangChain dependency
+- **🐛 Bug Fixes**: KeyError fixes, better error handling
 
-- **🔍 Comprehensive AI Logging**:
-  - All AI calls automatically logged with full prompts and responses
-  - Daily log files for transparency and debugging
-  - Built-in analysis tools to review AI interactions
-  - Logs saved to `app/logs/ai_calls_YYYYMMDD.log`
-
-- **🐛 Critical Bug Fixes**:
-  - Fixed KeyError with non-numeric data columns
-  - Improved error handling and messages
-  - Better data type handling in preprocessing
-
-- **⚡ Performance Improvements**:
-  - Removed LangChain dependency (90% faster code execution)
-  - Direct API calls for better performance
-  - Reduced memory footprint
-
-- **🎨 Rebranded Interface**:
-  - Updated to AI Analytics Engine branding
-  - Clearer model selection with free indicators
-  - Improved help text and error messages
-
-### Migration from Original
-Migrated from OpenAI API to OpenRouter AI, providing:
-- Free access to state-of-the-art models
-- Better cost efficiency (100% free vs paid)
-- Multiple model options through single API
-- Same quality results, zero cost
-
-Demo
-----
+## 📺 Demo
 
 https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/1d30faca-f474-42fd-b20b-c93ed7cf6d13
 
-Current Version Features
-------------------------
-* **Target Variable Identification**: LLMs adeptly pinpoint the target variable
-* **Null Value Management**: Choose from a variety of strategies such as mean, median, mode filling, interpolation, or introducing new categories for handling missing data, all recommended by LLMs
-* **Data Encoding Tactics**: Automated suggestions and completions for the best encoding methods, including one-hot, integer mapping, and label encoding
-* **Dimensionality Reduction with PCA**
-* **Duplicate Entity Resolution**
-* **Data Transformation and Normalization**: Utilize Box-Cox transformation and normalization techniques to improve data distribution and scalability
-* **Balancing Target Variable Entities**: LLM-recommended methods like random over-sampling, SMOTE, and ADASYN help balance data sets, crucial for unbiased model training
-* **Data Set Proportion Adjustment**: LLM determines the proportion of the data set (can also be adjusted manually)
-* **Model Selection and Training**: Based on your data, LLMs recommend and initiate training with the most suitable models
-* **Cluster Number Recommendation**: Leveraging the Elbow Rule and Silhouette Coefficient for optimal cluster numbers, with the flexibility of real-time adjustments
-* **AI Logging & Transparency**: All AI interactions logged for review and debugging
+## ✨ Core Capabilities
 
-All processed data and models are made available for download, offering a comprehensive, user-friendly data analysis toolkit.
+* **AI Planning Assistant**: Natural language interface to determine analysis needs
+* **Target Variable Identification**: LLM identifies the target variable
+* **Missing Value Management**: AI-recommended strategies (mean, median, mode, interpolation, new categories)
+* **Smart Encoding**: Automated one-hot, integer mapping, and label encoding
+* **PCA Dimensionality Reduction**: Automatic feature reduction when needed
+* **Data Transformation**: Box-Cox transformation and normalization
+* **Class Balancing**: SMOTE, ADASYN, random over-sampling (LLM-recommended)
+* **Model Selection**: AI recommends and trains best-fit models
+* **Cluster Optimization**: Elbow Rule and Silhouette Coefficient for optimal clusters
+* **Context-Aware Results**: AI summaries relate to your original questions
+* **Full Transparency**: All AI interactions logged for debugging
 
-### Modeling and Results Visualization:
-
-![Screenshot 2024-02-12 at 16 10 35](https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/423da7be-63f1-491d-9ebe-6a788c440c40)
-
-### Automated Workflow Interface:
-
-![Screenshot 2024-02-12 at 16 20 19](https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/9d04d5f2-4f2a-44eb-ab8b-c07c8c0c5a53)
-
-### Supported Modeling tasks:
+## 🤖 Supported Models
 
 | **Classification Models**        | **Clustering Models**         | **Regression Models**               |
 |----------------------------------|-------------------------------|-------------------------------------|
@@ -98,176 +62,66 @@ All processed data and models are made available for download, offering a compre
 | AdaBoost                         | etc.                          | Gradient boosting regression        |
 | XGBoost                          |                               | etc.                                |
 
-### Real-time calculation of model indicators and result visualization:
+## 📊 Metrics & Visualizations
 
-| **Classification Metrics & Plots** | **Clustering Metrics & Plots** | **Regression Metrics & Plots**        |
-|------------------------------------|--------------------------------|---------------------------------------|
-| Model score                        | Silhouette score               | R-squared score                       |
-| Confusion matrix                   | Calinski-Harabasz score        | Mean square error (MSE)               |
-| AUC                                | Davies-Bouldin score           | Root mean square error (RMSE)         |
-| F1 score                           | Cluster scatter plot           | Absolute error (MAE)                  |
-| ROC plot                           | etc.                           | Residual plot                         |
-| etc.                               |                                | Predicted value vs actual value plot  |
-|                                    |                                | Quantile-Quantile plot                |
+| **Classification** | **Clustering** | **Regression** |
+|-------------------|----------------|----------------|
+| Accuracy, F1, AUC | Silhouette score | R², MSE, RMSE, MAE |
+| Confusion matrix | Calinski-Harabasz | Residual plots |
+| ROC curves | Davies-Bouldin | Predicted vs Actual |
 
-### Visual Analysis Toolkit:
+### Visual Analysis (No API Key Required)
+* Single & multi-attribute visualizations
+* 3D plotting
+* Word clouds
+* World heat maps
 
-AI Analytics Engine 🪄 offers an array of intuitive visual tools for enhanced data insight, **without the need for an API Key**:
+## 🚀 Quick Start
 
-* **Single Attribute Visualization**: Insightful views into individual data aspects
-* **Multi-Attribute Visualization**: Comprehensive analysis of variable interrelations
-* **Three-Dimensional Plotting**: Advanced 3D representations for complex data relationships
-* **Word Clouds**: Key themes and concepts highlighted through word frequency
-* **World Heat Maps**: Geographic trends and distributions made visually accessible
-
-## 🚀 Quick Start (5 Minutes)
-
-### Step 1: Get API Key (2 min)
-1. Visit [OpenRouter.ai](https://openrouter.ai/)
-2. Sign up (completely free, no credit card required)
-3. Create an API key
-4. Copy your key
-
-### Step 2: Clone & Install (2 min)
 ```bash
-# Clone the repository
+# 1. Clone and install
 git clone https://github.com/dataelvisliang/Streamline-Analyst.git
 cd Streamline-Analyst
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### Step 3: Run (1 min)
-```bash
-cd app
-streamlit run app.py
-```
-
-### Step 4: Start Analyzing!
-1. Enter your OpenRouter API key in the password field
-2. Select a free model (Grok-4.1-Fast or GPT-OSS-20B)
-3. Upload your data file
-4. Choose analysis mode
-5. Click "Start Analysis"
-
-**Total Setup Time: ~5 minutes | Cost: $0.00 | Difficulty: Easy** ✨
-
-## 📋 Installation Details
-
-### Prerequisites
-
-* [Python 3.11.5](https://www.python.org/downloads/) or higher
-* [OpenRouter API Key](https://openrouter.ai/) - **Free to use!**
-  * Get your free API key at [OpenRouter.ai](https://openrouter.ai/)
-  * Both Grok-4.1-Fast and GPT-OSS-20B models are completely free
-  * No credit card required
-  * Unlimited usage
-
-### Full Installation Steps
-
-```bash
-# 1. Clone repository
-git clone https://github.com/dataelvisliang/Streamline-Analyst.git
-cd Streamline-Analyst
-
-# 2. Install required packages
 pip install -r requirements.txt
 
-# 3. Navigate to app directory
+# 2. Run
 cd app
-
-# 4. Run the application
 streamlit run app.py
+
+# 3. Get free API key at https://openrouter.ai/
+# 4. Upload data and start analyzing!
 ```
 
-## 🔍 AI Logging Features
+**Requirements**: Python 3.11.5+ | **Cost**: $0.00 | **Time**: 5 minutes
 
-All AI interactions are automatically logged with full transparency:
+## 🔍 AI Transparency
 
-### What's Logged:
-- **Function Name**: Which function made the AI call
-- **Model Used**: Which AI model processed the request
-- **Timestamp**: When the call was made
-- **Full Prompt**: Complete prompt sent to the AI
-- **Full Response**: Complete response received from AI
-- **Errors**: Any errors that occurred
+All AI interactions are logged with full transparency in `app/logs/ai_calls_YYYYMMDD.log`.
 
-### Viewing AI Logs:
-
-**In Real-Time** (console output):
+View logs:
 ```bash
-streamlit run app.py
-# Logs appear in terminal as AI calls are made
-```
-
-**View Log Files**:
-```bash
-# View today's log file (Windows)
-type app\logs\ai_calls_20251123.log
-
-# View statistics about AI calls
+# View statistics
 python app/view_ai_logs.py --count
 
-# Show the latest AI call
+# Show latest AI call
 python app/view_ai_logs.py --latest
-
-# Show all calls to a specific function
-python app/view_ai_logs.py --function decide_model
 ```
 
-### Log File Location:
-- **Path**: `app/logs/ai_calls_YYYYMMDD.log`
-- **Format**: One file per day
-- **Content**: Complete AI interaction history
+See `app/logs/README.md` for details.
 
-### Log Analysis Examples:
+## 📚 Resources
 
-```bash
-# Count AI calls by function
-python app/view_ai_logs.py --count
-# Output:
-# decide_encode_type    : 3 calls
-# decide_model         : 2 calls
-# decide_fill_null     : 1 call
-
-# View latest AI interaction
-python app/view_ai_logs.py --latest
-# Shows full prompt and response from last AI call
-
-# Search for specific function calls
-python app/view_ai_logs.py --function decide_target_attribute
-# Shows all calls to that specific function
-```
-
-For more details, see `app/logs/README.md`
-
-## 📚 Additional Resources
-
-### Model Information:
-- **Grok-4.1-Fast**: A model that combines frontier tool-calling performance with blazing-fast inference and cost effectiveness.
-- **GPT-OSS-20B**: Medium-sized open-weight model for low latency, local, or specialized use-cases (21B parameters with 3.6B active parameters).
-- **More models**: Check [OpenRouter Models](https://openrouter.ai/models)
-
-### Documentation:
 - **OpenRouter API**: https://openrouter.ai/docs
 - **Original Project**: https://github.com/Wilson-ZheLin/Streamline-Analyst
-- **Issue Tracking**: https://github.com/dataelvisliang/Streamline-Analyst/issues
-
-## 📄 License
-
-This project maintains the same license as the original Streamline Analyst project.
+- **Changelog**: See [CHANGELOG.md](CHANGELOG.md)
+- **Issues**: https://github.com/dataelvisliang/Streamline-Analyst/issues
 
 ## 🙏 Acknowledgments
 
 - **[Zhe Lin](https://github.com/Wilson-ZheLin)** - Original Streamline Analyst creator
-- **OpenRouter** - For providing free tier API access
-- **X.AI** - For Grok model access
-- **OpenAI** - For GPT-OSS model access
-- **Streamlit Community** - For the amazing framework
+- **OpenRouter** - Free tier API access
+- **Streamlit** - Amazing framework
 
 ---
 
-**Ready to start?** Get your free OpenRouter API key and start analyzing data in 5 minutes! 🚀
-
-**Cost:** $0.00 | **Setup Time:** 5 minutes | **Difficulty:** Easy ✨
+**Ready to start?** Get your free API key at [OpenRouter.ai](https://openrouter.ai/) and start analyzing! 🚀

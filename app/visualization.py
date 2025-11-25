@@ -1,6 +1,7 @@
 import streamlit as st
 from util import developer_info_static
 from src.plot import list_all, distribution_histogram, distribution_boxplot, count_Y, box_plot, violin_plot, strip_plot, density_plot ,multi_plot_heatmap, multi_plot_scatter, multi_plot_line, word_cloud_plot, world_map, scatter_3d
+from src.ai_summarizer import summarize_visualization_insights
 
 def display_word_cloud(text):
     _, word_cloud_col, _ = st.columns([1, 3, 1])
@@ -11,7 +12,7 @@ def display_word_cloud(text):
         else:
             st.pyplot(word_cloud_plot(text))
 
-def data_visualization(DF):
+def data_visualization(DF, API_KEY=None, GPT_MODEL=4):
     st.divider()
     st.subheader('Data Visualization')
     attributes = DF.columns.tolist()
@@ -216,6 +217,36 @@ def data_visualization(DF):
     if 'overall_plot' not in st.session_state:
         st.session_state.overall_plot = list_all(st.session_state.data_origin)
     st.pyplot(st.session_state.overall_plot)
+
+    # AI Summary of Data Insights (only if API key is provided)
+    if API_KEY:
+        st.divider()
+        st.subheader("🤖 AI Data Insights")
+        with st.spinner("AI is analyzing your data..."):
+            # Gather dataset information
+            num_rows, num_cols = DF.shape
+            data_overview = f"Shape: {num_rows} rows × {num_cols} columns\n"
+            data_overview += f"Columns: {', '.join(DF.columns.tolist()[:10])}"
+            if num_cols > 10:
+                data_overview += f"... (and {num_cols - 10} more)"
+
+            # Count numerical vs categorical features
+            num_features = DF.select_dtypes(include=['int64', 'float64']).shape[1]
+            num_categorical = DF.select_dtypes(include=['object', 'category']).shape[1]
+
+            # Get user query from session state if available
+            user_query = st.session_state.get('user_query', None)
+
+            summary = summarize_visualization_insights(
+                data_overview=data_overview,
+                num_features=num_features,
+                num_categorical=num_categorical,
+                api_key=API_KEY,
+                model_type=GPT_MODEL,
+                user_query=user_query
+            )
+
+            st.markdown(summary)
 
     st.divider()
     developer_info_static()

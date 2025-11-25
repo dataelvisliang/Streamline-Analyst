@@ -8,6 +8,7 @@ from src.pca import decide_pca, perform_PCA_for_clustering
 from src.model_service import save_model, calculate_silhouette_score, calculate_calinski_harabasz_score, calculate_davies_bouldin_score, gmm_predict, estimate_optimal_clusters
 from src.cluster_model import train_select_cluster_model
 from src.util import contain_null_attributes_info, separate_fill_null_list, check_all_columns_numeric, non_numeric_columns_and_head, separate_decode_list, get_cluster_method_name
+from src.ai_summarizer import summarize_clustering_results
 
 def start_training_model():
     st.session_state["start_training"] = True
@@ -170,18 +171,8 @@ def cluster_model_pipeline(DF, API_KEY, GPT_MODEL):
 
             # Display results
             if st.session_state["decided_model"]:
-                display_results(st.session_state.X)
+                display_results(st.session_state.X, API_KEY, GPT_MODEL)
                 st.session_state["all_set"] = True
-            
-            # Download models
-            if st.session_state["all_set"]:
-                download_col1, download_col2, download_col3 = st.columns(3)
-                with download_col1:
-                    st.download_button(label="Download Model", data=st.session_state.downloadable_model1, file_name=f"{st.session_state.model1_name}.joblib", mime="application/octet-stream")
-                with download_col2:
-                    st.download_button(label="Download Model", data=st.session_state.downloadable_model2, file_name=f"{st.session_state.model2_name}.joblib", mime="application/octet-stream")
-                with download_col3:
-                    st.download_button(label="Download Model", data=st.session_state.downloadable_model3, file_name=f"{st.session_state.model3_name}.joblib", mime="application/octet-stream")
 
     # Footer
     st.divider()
@@ -192,7 +183,7 @@ def cluster_model_pipeline(DF, API_KEY, GPT_MODEL):
         else:
             developer_info_static()
 
-def display_results(X):
+def display_results(X, API_KEY, GPT_MODEL):
     st.success("Models selected based on your data!")
 
     # Data set metrics
@@ -283,3 +274,60 @@ def display_results(X):
         st.write(f"Silhouette score: ", f'\n:green[**{calculate_silhouette_score(X, label3)}**]')
         st.write(f"Calinski-Harabasz score: ", f'\n:green[**{calculate_calinski_harabasz_score(X, label3)}**]')
         st.write(f"Davies-Bouldin score: ", f'\n:green[**{calculate_davies_bouldin_score(X, label3)}**]')
+
+    # Download Models Section
+    st.divider()
+    st.subheader("📥 Download Trained Models")
+    download_col1, download_col2, download_col3 = st.columns(3)
+    with download_col1:
+        st.download_button(
+            label="Download Model",
+            data=st.session_state.downloadable_model1,
+            file_name=f'{st.session_state.model1_name}.pkl',
+            mime='application/octet-stream',
+            key='download_model1'
+        )
+    with download_col2:
+        st.download_button(
+            label="Download Model",
+            data=st.session_state.downloadable_model2,
+            file_name=f'{st.session_state.model2_name}.pkl',
+            mime='application/octet-stream',
+            key='download_model2'
+        )
+    with download_col3:
+        st.download_button(
+            label="Download Model",
+            data=st.session_state.downloadable_model3,
+            file_name=f'{st.session_state.model3_name}.pkl',
+            mime='application/octet-stream',
+            key='download_model3'
+        )
+
+    # AI Summary of Results
+    st.divider()
+    st.subheader("🤖 AI Analysis Summary")
+    with st.spinner("AI is analyzing the clustering results..."):
+        # Use the first model's metrics as representative
+        if st.session_state.model_list[0] != 3:
+            labels = st.session_state.model1.labels_
+        else:
+            labels = gmm_predict(X, st.session_state.model1)
+
+        silhouette = calculate_silhouette_score(X, labels)
+        # Get inertia if K-Means, otherwise use a placeholder
+        inertia = st.session_state.model1.inertia_ if hasattr(st.session_state.model1, 'inertia_') else 0
+
+        # Get user query from session state if available
+        user_query = st.session_state.get('user_query', None)
+
+        summary = summarize_clustering_results(
+            n_clusters=n_clusters1,
+            silhouette_score=silhouette,
+            inertia=inertia,
+            api_key=API_KEY,
+            model_type=GPT_MODEL,
+            user_query=user_query
+        )
+
+        st.markdown(summary)

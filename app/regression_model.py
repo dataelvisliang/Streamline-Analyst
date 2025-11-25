@@ -8,6 +8,7 @@ from src.pca import decide_pca, perform_PCA_for_regression
 from src.model_service import split_data, save_model, calculate_r2_score, calculate_mse_and_rmse, calculate_mae
 from src.regression_model import train_selected_regression_model
 from src.util import select_Y, contain_null_attributes_info, separate_fill_null_list, check_all_columns_numeric, non_numeric_columns_and_head, separate_decode_list, get_data_overview, attribute_info, get_regression_method_name
+from src.ai_summarizer import summarize_regression_results
 
 def start_training_model():
     st.session_state["start_training"] = True
@@ -206,18 +207,8 @@ def regression_model_pipeline(DF, API_KEY, GPT_MODEL):
 
                 # Show modeling results
                 if st.session_state["decided_model"]:
-                    display_results(st.session_state.X_train, st.session_state.X_test, st.session_state.Y_train, st.session_state.Y_test)
+                    display_results(st.session_state.X_train, st.session_state.X_test, st.session_state.Y_train, st.session_state.Y_test, st.session_state.selected_Y, API_KEY, GPT_MODEL)
                     st.session_state["all_set"] = True
-                
-                # Download models
-                if st.session_state["all_set"]:
-                    download_col1, download_col2, download_col3 = st.columns(3)
-                    with download_col1:
-                        st.download_button(label="Download Model", data=st.session_state.downloadable_model1, file_name=f"{st.session_state.model1_name}.joblib", mime="application/octet-stream")
-                    with download_col2:
-                        st.download_button(label="Download Model", data=st.session_state.downloadable_model2, file_name=f"{st.session_state.model2_name}.joblib", mime="application/octet-stream")
-                    with download_col3:
-                        st.download_button(label="Download Model", data=st.session_state.downloadable_model3, file_name=f"{st.session_state.model3_name}.joblib", mime="application/octet-stream")
         
         # Footer
         st.divider()
@@ -228,7 +219,7 @@ def regression_model_pipeline(DF, API_KEY, GPT_MODEL):
             else:
                 developer_info_static()
 
-def display_results(X_train, X_test, Y_train, Y_test):
+def display_results(X_train, X_test, Y_train, Y_test, target_variable, API_KEY, GPT_MODEL):
     st.success("Models selected based on your data!")
 
     # Data set metrics
@@ -298,3 +289,46 @@ def display_results(X_train, X_test, Y_train, Y_test):
         st.pyplot(plot_residuals(st.session_state.y_pred3, Y_test))
         st.write("Mean Absolute Error: ", f':green[**{calculate_mae(st.session_state.y_pred3, Y_test)}**]')
         st.pyplot(plot_qq_plot(st.session_state.y_pred3, Y_test))
+
+    # Download Models Section
+    st.divider()
+    st.subheader("📥 Download Trained Models")
+    download_col1, download_col2, download_col3 = st.columns(3)
+    with download_col1:
+        st.download_button(label="Download Model", data=st.session_state.downloadable_model1, file_name=f"{st.session_state.model1_name}.joblib", mime="application/octet-stream")
+    with download_col2:
+        st.download_button(label="Download Model", data=st.session_state.downloadable_model2, file_name=f"{st.session_state.model2_name}.joblib", mime="application/octet-stream")
+    with download_col3:
+        st.download_button(label="Download Model", data=st.session_state.downloadable_model3, file_name=f"{st.session_state.model3_name}.joblib", mime="application/octet-stream")
+
+    # AI Summary of Results
+    st.divider()
+    st.subheader("🤖 AI Analysis Summary")
+    with st.spinner("AI is analyzing the regression results..."):
+        # Collect results
+        model_names = [st.session_state.model1_name, st.session_state.model2_name, st.session_state.model3_name]
+        r2_scores = [
+            calculate_r2_score(st.session_state.y_pred1, Y_test),
+            calculate_r2_score(st.session_state.y_pred, Y_test),
+            calculate_r2_score(st.session_state.y_pred3, Y_test)
+        ]
+
+        mse1, _ = calculate_mse_and_rmse(st.session_state.y_pred1, Y_test)
+        mse2, _ = calculate_mse_and_rmse(st.session_state.y_pred, Y_test)
+        mse3, _ = calculate_mse_and_rmse(st.session_state.y_pred3, Y_test)
+        mse_scores = [mse1, mse2, mse3]
+
+        # Get user query from session state if available
+        user_query = st.session_state.get('user_query', None)
+
+        summary = summarize_regression_results(
+            target_variable=target_variable,
+            model_names=model_names,
+            r2_scores=r2_scores,
+            mse_scores=mse_scores,
+            api_key=API_KEY,
+            model_type=GPT_MODEL,
+            user_query=user_query
+        )
+
+        st.markdown(summary)

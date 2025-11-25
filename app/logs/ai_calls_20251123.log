@@ -226,3 +226,67 @@ Response received:
 {"model1":1,"model2":2,"model3":5}
 2025-11-23 20:38:47,461 - INFO - ================================================================================
 
+2025-11-23 23:45:18,161 - INFO - Calling AI - Function: decide_encode_type, Model: openai/gpt-oss-20b:free
+2025-11-23 23:45:19,781 - INFO - 
+================================================================================
+2025-11-23 23:45:19,781 - INFO - AI CALL - Function: decide_encode_type
+2025-11-23 23:45:19,781 - INFO - Model: openai/gpt-oss-20b:free
+2025-11-23 23:45:19,781 - INFO - Timestamp: 2025-11-23 23:45:19
+2025-11-23 23:45:19,781 - INFO - 
+Prompt sent:
+You are a data analyst. You are cleaning the data and processing the attributes in the data that are not numeric. The columns to be processed include: ['Species']. The first 20 items of these data are as follows:
+,Species
+0,Iris-setosa
+1,Iris-setosa
+2,Iris-setosa
+3,Iris-setosa
+4,Iris-setosa
+5,Iris-setosa
+6,Iris-setosa
+7,Iris-setosa
+8,Iris-setosa
+9,Iris-setosa
+10,Iris-setosa
+11,Iris-setosa
+12,Iris-setosa
+13,Iris-setosa
+14,Iris-setosa
+15,Iris-setosa
+16,Iris-setosa
+17,Iris-setosa
+18,Iris-setosa
+19,Iris-setosa
+
+Please help me decide whether each attribute should be processed as integer mapping or one-hot encoding based on content and semantics. If there's an attribute containing long text, consider dropping it. Integer mapping is represented by 1, one-hot encoding is represented by 2, and dropping the attribute is represented by 3. Only the data is returned in json format without any other explanation or content. Sample response: {"color":2,"size":1,"country":2,"brand":2,"gender":1,"comments":3}
+
+2025-11-23 23:45:19,781 - INFO - 
+Response received:
+{"Species":2}
+2025-11-23 23:45:19,781 - INFO - ================================================================================
+
+2025-11-23 23:45:44,073 - INFO - Calling AI - Function: decide_cluster_model, Model: openai/gpt-oss-20b:free
+2025-11-23 23:45:45,876 - INFO - 
+================================================================================
+2025-11-23 23:45:45,876 - INFO - AI CALL - Function: decide_cluster_model
+2025-11-23 23:45:45,876 - INFO - Model: openai/gpt-oss-20b:free
+2025-11-23 23:45:45,876 - INFO - Timestamp: 2025-11-23 23:45:45
+2025-11-23 23:45:45,876 - INFO - 
+Prompt sent:
+You are a data analyst. The shape of my data frame is (150, 3). The description of the data frame is:
+,PC1,PC2,PC3
+count,150.0,150.0,150.0
+mean,9.473903143468003e-17,3.848773152033876e-17,0.0
+std,2.020689224378246,1.0014174671211764,0.5998541630521002
+min,-3.1072751287720353,-2.786910788524408,-1.3807502682527781
+25%,-2.425361230203242,-0.5663582496513159,-0.407346467343581
+50%,0.4626401207968138,0.03789199686455487,-0.023687629211444954
+75%,1.8093766352385454,0.5685276171330601,0.40130306068079913
+max,3.415226333483904,2.66668570783879,1.606153473252011
+
+The data has been cleaned and preprocessed, numerically transformed, and ready to train the clustering models. According to the data information provided, please help me decide which clustering models should be used for discovering natural groupings in the data. The expected number of clusters is 2. Model options are: 1:KMeans, 2:DBSCAN, 3:GaussianMixture, 4:AgglomerativeClustering, 5:SpectralClustering. Please select three models to take into account different model performance indicators. Only the data is returned in json format without any other explanation or content. Sample response: {"model1":1,"model2":2,"model3":3}
+
+2025-11-23 23:45:45,876 - INFO - 
+Response received:
+{"model1":1,"model2":3,"model3":4}
+2025-11-23 23:45:45,876 - INFO - ================================================================================
+

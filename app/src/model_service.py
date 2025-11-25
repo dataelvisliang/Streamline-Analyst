@@ -65,8 +65,9 @@ def check_and_balance(X, Y, balance_threshold=0.5, method=1):
         else:
             return X, Y
     except Exception as e:
-        st.error("The target attribute may be continuous. Please check the data type.")
-        st.stop()
+        # Return error flag to trigger fallback mechanism in main pipeline
+        st.session_state.analysis_error = 'continuous_target_for_classification'
+        return None, None
     
 def estimate_optimal_clusters(df):
     """
