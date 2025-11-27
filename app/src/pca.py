@@ -62,6 +62,13 @@ def perform_pca(df, n_components, Y_name):
     # Remove non-numeric columns and the target column
     numeric_df = df.select_dtypes(include=[np.number]).drop(columns=drop_columns, errors='ignore')
 
+    # Handle missing values before scaling
+    if numeric_df.isna().any().any():
+        # Fill NaN with column mean
+        numeric_df = numeric_df.fillna(numeric_df.mean())
+        # If still NaN (all values in column are NaN), fill with 0
+        numeric_df = numeric_df.fillna(0)
+
     # Standardizing the Data
     scaler = StandardScaler()
     scaled_data = scaler.fit_transform(numeric_df)
@@ -92,9 +99,17 @@ def perform_PCA_for_clustering(df, n_components):
     Returns:
     - pca_df (DataFrame): DataFrame of the principal components.
     """
+    # Handle missing values before PCA
+    df_clean = df.copy()
+    if df_clean.isna().any().any():
+        # Fill NaN with column mean
+        df_clean = df_clean.fillna(df_clean.mean())
+        # If still NaN (all values in column are NaN), fill with 0
+        df_clean = df_clean.fillna(0)
+
     # Applying PCA
     pca = PCA(n_components=n_components)
-    principal_components = pca.fit_transform(df)
+    principal_components = pca.fit_transform(df_clean)
     
     # Create a new DataFrame with principal components
     columns = [f'PC{i+1}' for i in range(n_components)]
@@ -123,6 +138,13 @@ def perform_PCA_for_regression(df, n_components, Y_name):
 
     # Remove non-numeric columns and the target column
     numeric_df = df.select_dtypes(include=[np.number]).drop(columns=drop_columns, errors='ignore')
+
+    # Handle missing values before PCA
+    if numeric_df.isna().any().any():
+        # Fill NaN with column mean
+        numeric_df = numeric_df.fillna(numeric_df.mean())
+        # If still NaN (all values in column are NaN), fill with 0
+        numeric_df = numeric_df.fillna(0)
 
     # Applying PCA
     pca = PCA(n_components=n_components)

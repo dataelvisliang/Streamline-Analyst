@@ -166,23 +166,104 @@ def multi_plot_heatmap(df, selected_attributes):
 
 # Overall visualization
 @st.cache_data
+def select_correlation_columns(df, max_columns=15):
+    """
+    Intelligently select columns for correlation analysis.
+    Filters out high-cardinality columns and selects most relevant numeric columns.
+
+    Args:
+        df: DataFrame to analyze
+        max_columns: Maximum number of columns to include
+
+    Returns:
+        DataFrame with selected columns only
+    """
+    # Get only numeric columns
+    numeric_df = df.select_dtypes(include=[np.number])
+
+    if len(numeric_df.columns) == 0:
+        return numeric_df
+
+    # Calculate cardinality (number of unique values)
+    column_info = []
+    for col in numeric_df.columns:
+        unique_count = numeric_df[col].nunique()
+        unique_ratio = unique_count / len(numeric_df)
+        variance = numeric_df[col].var() if not numeric_df[col].isna().all() else 0
+
+        column_info.append({
+            'name': col,
+            'unique_count': unique_count,
+            'unique_ratio': unique_ratio,
+            'variance': variance
+        })
+
+    # Filter logic:
+    # 1. Remove ID-like columns (unique ratio > 0.95)
+    # 2. Remove constant columns (variance = 0)
+    # 3. Prioritize columns with moderate cardinality and high variance
+
+    filtered_cols = []
+    for info in column_info:
+        # Skip ID-like columns (almost all unique)
+        if info['unique_ratio'] > 0.95:
+            continue
+        # Skip constant columns
+        if info['variance'] == 0:
+            continue
+        filtered_cols.append(info)
+
+    # If we filtered out everything, use top variance columns from original
+    if len(filtered_cols) == 0:
+        filtered_cols = sorted(column_info, key=lambda x: x['variance'], reverse=True)
+
+    # Sort by variance (most informative first)
+    filtered_cols = sorted(filtered_cols, key=lambda x: x['variance'], reverse=True)
+
+    # Take top N columns
+    selected_cols = [col['name'] for col in filtered_cols[:max_columns]]
+
+    return numeric_df[selected_cols]
+
+
 def correlation_matrix(df):
     """
-    Correlation heatmap of all attributes using Seaborn.
+    Correlation heatmap of selected attributes using Seaborn.
+    Automatically filters out high-cardinality columns.
     """
+    # Select appropriate columns
+    df_selected = select_correlation_columns(df)
+
+    if len(df_selected.columns) == 0:
+        st.warning("No suitable numeric columns for correlation analysis.")
+        return None
+
     plt.figure(figsize=(16, 12))
     sns.set(font_scale=0.9)
-    sns.heatmap(df.corr(), annot=True, cmap='viridis', annot_kws={"size": 12})
+    sns.heatmap(df_selected.corr(), annot=True, cmap='viridis', annot_kws={"size": 12})
+
+    if len(df_selected.columns) < len(df.select_dtypes(include=[np.number]).columns):
+        plt.title(f'Correlation Matrix (Top {len(df_selected.columns)} Most Relevant Columns)', fontsize=14, pad=20)
+
     return plt.gcf()
 
 @st.cache_data
 def correlation_matrix_plotly(df):
     """
-    Correlation heatmap of all attributes using Plotly.
+    Correlation heatmap of selected attributes using Plotly.
+    Automatically filters out high-cardinality columns like IDs.
     """
-    corr_matrix = df.corr()
+    # Select appropriate columns
+    df_selected = select_correlation_columns(df)
+
+    if len(df_selected.columns) == 0:
+        st.warning("No suitable numeric columns for correlation analysis.")
+        return None
+
+    corr_matrix = df_selected.corr()
     labels = corr_matrix.columns
     text = [[f'{corr_matrix.iloc[i, j]:.2f}' for j in range(len(labels))] for i in range(len(labels))]
+
     fig = go.Figure(data=go.Heatmap(
         z=corr_matrix.values,
         x=labels,
@@ -192,8 +273,13 @@ def correlation_matrix_plotly(df):
         text=text,
         hoverinfo='text',
     ))
+
+    title = 'Correlation Matrix Between Attributes'
+    if len(df_selected.columns) < len(df.select_dtypes(include=[np.number]).columns):
+        title = f'Correlation Matrix (Top {len(df_selected.columns)} Most Relevant Columns)'
+
     fig.update_layout(
-        title='Correlation Matrix Between Attributes',
+        title=title,
         xaxis=dict(tickmode='linear'),
         yaxis=dict(tickmode='linear'),
         width=800,

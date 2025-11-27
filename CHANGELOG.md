@@ -2,6 +2,129 @@
 
 All notable changes to AI Analytics Engine will be documented in this file.
 
+## [2.2.0] - 2024-11-26
+
+### Added - Time Series Forecasting & Enhanced Planning Agent
+
+#### EDA-Powered Planning Agent
+- **Data-Aware Routing** (`app/planning_agent.py`)
+  - Added `perform_quick_eda()` - Analyzes dataset before routing
+  - Added `analyze_query_with_data()` - AI considers both user intent AND data structure
+  - Detects column types (numeric, categorical, datetime)
+  - Calculates statistics (mean, std, min, max, variance)
+  - Identifies missing values and unique counts
+  - Smart datetime detection for time series routing
+  - Provides `data_insights` explaining routing decisions
+
+- **Enhanced Chat Interface** (`app/app.py`)
+  - Planning agent now performs EDA before recommending mode
+  - Displays data insights in conversation history
+  - Better spinner message: "Analyzing your data and determining the best approach..."
+  - Shows why AI chose specific analysis mode based on data characteristics
+
+#### Time Series Forecasting Mode
+- **New Time Series Pipeline** (`app/timeseries_model.py`)
+  - Complete time series forecasting workflow with AI assistance
+  - Multi-step pipeline: data inspection, preprocessing, analysis, forecasting
+  - Support for multiple forecasting methods:
+    - **ARIMA**: AutoRegressive Integrated Moving Average
+    - **Exponential Smoothing**: With trend and seasonality support
+    - **Trend Models**: ML-based (Random Forest) with lag features
+  - Automatic train/test split and model evaluation
+  - Forecast visualization with confidence intervals
+  - Downloadable forecast results in CSV format
+
+- **Time Series Agent** (`app/src/timeseries_agent.py`)
+  - AI-powered column detection for date/time and value columns
+  - Automatic pattern detection (trend, seasonality, stationarity)
+  - Intelligent method recommendation based on data characteristics
+  - Fallback heuristics when AI is unavailable
+  - Statistical analysis:
+    - Trend detection using correlation
+    - Seasonality detection using rolling statistics
+    - Stationarity checking
+
+#### AI Features for Time Series
+- **Smart Preprocessing**
+  - Automatic date parsing and validation
+  - AI-guided missing value imputation
+  - Handles irregular time series
+  - Duplicate removal
+
+- **AI Summary for Forecasts** (`app/src/ai_summarizer.py`)
+  - Added `summarize_timeseries_results()` function
+  - Context-aware forecast analysis
+  - Explains forecast quality and reliability
+  - Compares model performance
+  - Provides actionable recommendations
+
+#### Integration
+- **App Integration** (`app/app.py`)
+  - Added "Time Series Forecasting" to analysis mode dropdown
+  - Integrated time series pipeline into main workflow
+  - Updated planning agent to recognize time series queries
+
+- **Planning Agent Updates** (`app/planning_agent.py`)
+  - Recognizes time series forecasting requests
+  - Keywords: "forecast", "predict future", "time series", "trends over time"
+  - Recommends time series mode for temporal data
+
+#### Metrics & Visualization
+- **Evaluation Metrics**:
+  - RMSE (Root Mean Squared Error)
+  - MAE (Mean Absolute Error)
+  - MSE (Mean Squared Error)
+
+- **Visualizations**:
+  - Historical data plot
+  - Forecast vs actual comparison
+  - 95% confidence intervals
+  - Model comparison charts
+
+#### Smart Correlation Analysis
+- **Intelligent Column Selection** (`app/src/plot.py`)
+  - Added `select_correlation_columns()` - Filters out inappropriate columns
+  - Removes ID-like columns (>95% unique values)
+  - Removes constant columns (zero variance)
+  - Prioritizes columns by variance (most informative first)
+  - Limits to top 15 most relevant columns
+  - Automatic title updates showing column filtering
+
+### Fixed
+
+#### Bug Fixes
+- **PCA NaN Handling** (`app/src/pca.py`)
+  - Fixed `ValueError: Input X contains NaN` in all PCA functions
+  - Added NaN detection and mean imputation before PCA
+  - Applied to `perform_pca()`, `perform_PCA_for_regression()`, and `perform_PCA_for_clustering()`
+
+- **Session State Initialization** (`app/prediction_model.py`)
+  - Fixed `AttributeError: st.session_state has no attribute "to_perform_pca"`
+  - Separated `to_perform_pca` initialization from `df_pca` check
+  - Prevents crashes on Streamlit reruns
+
+### Technical Details
+
+#### New Dependencies
+- Already available: `statsmodels==0.14.0` (ARIMA, SARIMAX, Exponential Smoothing)
+- Uses existing: `scikit-learn` for ML-based forecasting
+
+#### File Structure
+```
+app/
+├── timeseries_model.py           # NEW: Time series forecasting pipeline
+├── src/
+│   ├── timeseries_agent.py       # NEW: AI agent for time series
+│   ├── ai_summarizer.py          # MODIFIED: Added summarize_timeseries_results()
+│   ├── plot.py                   # MODIFIED: Smart correlation column selection
+│   └── pca.py                    # MODIFIED: NaN handling in all PCA functions
+├── app.py                         # MODIFIED: EDA-powered planning agent
+├── planning_agent.py              # MODIFIED: Data-aware routing with EDA
+└── prediction_model.py            # MODIFIED: Fixed session state initialization
+```
+
+---
+
 ## [2.1.0] - 2024-11-24
 
 ### Added - Planning Agent & UX Improvements

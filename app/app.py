@@ -5,6 +5,7 @@ from prediction_model import prediction_model_pipeline
 from cluster_model import cluster_model_pipeline
 from regression_model import regression_model_pipeline
 from visualization import data_visualization
+from timeseries_model import timeseries_model_pipeline
 from src.util import read_file_from_streamlit
 from planning_agent import PlanningAgent
 
@@ -65,17 +66,19 @@ with st.container():
 
             # Check if data is uploaded
             has_data = 'DF_uploaded' in st.session_state and st.session_state.DF_uploaded is not None
+            dataframe = st.session_state.DF_uploaded if has_data else None
 
-            # Get response from planning agent
-            with st.spinner("Thinking..."):
-                analysis = st.session_state.planning_agent.analyze_query(user_question, has_data)
+            # Get response from planning agent WITH EDA
+            with st.spinner("Analyzing your data and determining the best approach..."):
+                analysis = st.session_state.planning_agent.analyze_query_with_data(user_question, dataframe)
 
             # Add to chat history
             st.session_state.chat_history.append({
                 "user": user_question,
                 "assistant": analysis['response'],
                 "analysis_mode": analysis.get('analysis_mode'),
-                "next_steps": analysis.get('next_steps', [])
+                "next_steps": analysis.get('next_steps', []),
+                "data_insights": analysis.get('data_insights')
             })
 
             # Trigger autonomous execution if planning agent recommends it
@@ -96,6 +99,8 @@ with st.container():
                 st.write(f"**Assistant:** {chat['assistant']}")
                 if chat.get('analysis_mode'):
                     st.info(f"📊 Recommended Mode: **{chat['analysis_mode']}**")
+                if chat.get('data_insights'):
+                    st.success(f"💡 Data Insights: {chat['data_insights']}")
                 if chat.get('next_steps'):
                     st.write("**Next Steps:**")
                     for step in chat['next_steps']:
@@ -156,7 +161,7 @@ with st.container():
 
             MODE = st.selectbox(
                 'Select proper data analysis mode',
-                ('Predictive Classification', 'Clustering Model', 'Regression Model', 'Data Visualization'),
+                ('Predictive Classification', 'Clustering Model', 'Regression Model', 'Time Series Forecasting', 'Data Visualization'),
                 help="Data Visualization mode doesn't require an API key"
             )
 
@@ -211,6 +216,8 @@ with st.container():
                     cluster_model_pipeline(st.session_state.DF_uploaded, FINAL_API_KEY, GPT_MODEL)
                 elif MODE == 'Regression Model':
                     regression_model_pipeline(st.session_state.DF_uploaded, FINAL_API_KEY, GPT_MODEL)
+                elif MODE == 'Time Series Forecasting':
+                    timeseries_model_pipeline(st.session_state.DF_uploaded, FINAL_API_KEY, GPT_MODEL)
                 elif MODE == 'Data Visualization':
                     data_visualization(st.session_state.DF_uploaded, FINAL_API_KEY, GPT_MODEL)
 

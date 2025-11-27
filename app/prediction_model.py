@@ -151,12 +151,16 @@ def prediction_model_pipeline(DF, API_KEY, GPT_MODEL):
         # PCA
         st.subheader('Principal Component Analysis')
         st.write("Deciding whether to perform PCA...")
-        if 'df_pca' not in st.session_state:
+
+        # Initialize to_perform_pca if not exists
+        if 'to_perform_pca' not in st.session_state:
             to_perform_pca, n_components = decide_pca(st.session_state.df_cleaned2.drop(columns=[st.session_state.selected_Y]))
-            if 'to_perform_pca' not in st.session_state:
-                st.session_state.to_perform_pca = to_perform_pca
+            st.session_state.to_perform_pca = to_perform_pca
+            st.session_state.n_components = n_components
+
+        if 'df_pca' not in st.session_state:
             if st.session_state.to_perform_pca:
-                st.session_state.df_pca = perform_pca(st.session_state.df_cleaned2, n_components, st.session_state.selected_Y)
+                st.session_state.df_pca = perform_pca(st.session_state.df_cleaned2, st.session_state.n_components, st.session_state.selected_Y)
             else:
                 st.session_state.df_pca = st.session_state.df_cleaned2
         st.success("Completed!")

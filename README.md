@@ -11,6 +11,7 @@ AI Analytics Engine is an open-source, LLM-powered application that automates da
 ### Key Features
 - **AI Planning Assistant**: Chat with AI to determine the best analysis approach
 - **Automated Workflows**: Data cleaning, preprocessing, model selection, and training
+- **Time Series Forecasting**: Multiple forecasting methods with AI-guided selection
 - **100% Free Models**: Grok-4.1-Fast and GPT-OSS-20B at zero cost
 - **Context-Aware Results**: AI summaries relate findings to your original questions
 - **Smart Fallbacks**: Helpful suggestions when analysis can't proceed
@@ -52,23 +53,22 @@ https://github.com/Wilson-ZheLin/Streamline-Analyst/assets/145169519/1d30faca-f4
 
 ## 🤖 Supported Models
 
-| **Classification Models**        | **Clustering Models**         | **Regression Models**               |
-|----------------------------------|-------------------------------|-------------------------------------|
-| Logistic regression              | K-means clustering            | Linear regression                   |
-| Random forest                    | DBSCAN                        | Ridge regression                    |
-| Support vector machine           | Gaussian mixture model        | Lasso regression                    |
-| Gradient boosting machine        | Hierarchical clustering       | Elastic net regression              |
-| Gaussian Naive Bayes             | Spectral clustering           | Random forest regression            |
-| AdaBoost                         | etc.                          | Gradient boosting regression        |
-| XGBoost                          |                               | etc.                                |
+| **Classification**        | **Clustering**         | **Regression**               | **Time Series** |
+|--------------------------|------------------------|------------------------------|-----------------|
+| Logistic regression      | K-means clustering     | Linear regression            | ARIMA           |
+| Random forest            | DBSCAN                 | Ridge regression             | SARIMA          |
+| Support vector machine   | Gaussian mixture       | Lasso regression             | Exponential Smoothing |
+| Gradient boosting        | Hierarchical           | Elastic net                  | Trend Models    |
+| Gaussian Naive Bayes     | Spectral clustering    | Random forest regression     | ML-based Forecasting |
+| AdaBoost, XGBoost        | etc.                   | Gradient boosting regression | etc.            |
 
 ## 📊 Metrics & Visualizations
 
-| **Classification** | **Clustering** | **Regression** |
-|-------------------|----------------|----------------|
-| Accuracy, F1, AUC | Silhouette score | R², MSE, RMSE, MAE |
-| Confusion matrix | Calinski-Harabasz | Residual plots |
-| ROC curves | Davies-Bouldin | Predicted vs Actual |
+| **Classification** | **Clustering** | **Regression** | **Time Series** |
+|-------------------|----------------|----------------|-----------------|
+| Accuracy, F1, AUC | Silhouette score | R², MSE, RMSE, MAE | RMSE, MAE, MSE |
+| Confusion matrix | Calinski-Harabasz | Residual plots | Forecast plots |
+| ROC curves | Davies-Bouldin | Predicted vs Actual | Confidence intervals |
 
 ### Visual Analysis (No API Key Required)
 * Single & multi-attribute visualizations

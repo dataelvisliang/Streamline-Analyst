@@ -252,3 +252,69 @@ Provide your analysis as bullet points. Start by directly addressing the user's 
         return response
     except Exception as e:
         return f"Unable to generate summary: {str(e)}"
+
+
+def summarize_timeseries_results(best_model, model_metrics, forecast_horizon, api_key, model_type=4, user_query=None):
+    """
+    Generate AI summary for time series forecasting results
+
+    Args:
+        best_model: Name of the best performing model
+        model_metrics: Dictionary of model names and their metrics (RMSE, MAE, MSE)
+        forecast_horizon: Number of periods forecasted
+        api_key: OpenRouter API key
+        model_type: Model type (4 = Grok-4.1-Fast, 3.5 = GPT-OSS-20B)
+        user_query: User's original question (optional)
+
+    Returns:
+        AI-generated summary as markdown text
+    """
+
+    # Format results for AI
+    results_text = f"Best Performing Model: {best_model}\n\n"
+    results_text += f"Forecast Horizon: {forecast_horizon} periods\n\n"
+    results_text += "Model Performance Metrics:\n"
+
+    for model_name, metrics in model_metrics.items():
+        results_text += f"\n{model_name}:\n"
+        results_text += f"  - RMSE: {metrics['RMSE']:.4f}\n"
+        results_text += f"  - MAE: {metrics['MAE']:.4f}\n"
+        results_text += f"  - MSE: {metrics['MSE']:.4f}\n"
+
+    system_prompt = """You are a time series forecasting expert analyzing forecasting results.
+Your task is to summarize the key findings from time series forecasting in a clear, actionable way.
+
+Provide:
+1. Direct answer to the user's original question (if provided)
+2. Overall assessment of forecast quality and reliability
+3. Why the best model performed better than others
+4. What the error metrics (RMSE, MAE) indicate about forecast accuracy
+5. Practical insights about the forecast (trends, patterns, confidence)
+6. 2-3 actionable recommendations for using the forecast
+
+Keep your summary to 5-7 bullet points. Be specific, data-driven, and focus on answering the user's question."""
+
+    user_context = f"\n\nUser's Original Question: {user_query}" if user_query else ""
+
+    user_message = f"""Analyze these time series forecasting results and provide a concise summary:
+
+{results_text}{user_context}
+
+Provide your analysis as bullet points. Start by directly addressing the user's question if provided."""
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_message}
+    ]
+
+    try:
+        model_name = get_model_name(model_type)
+        response = call_openrouter(
+            messages=messages,
+            model_name=model_name,
+            api_key=api_key,
+            function_name="summarize_timeseries_results"
+        )
+        return response
+    except Exception as e:
+        return f"Unable to generate summary: {str(e)}"
