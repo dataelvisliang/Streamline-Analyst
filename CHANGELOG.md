@@ -2,7 +2,7 @@
 
 All notable changes to AI Analytics Engine will be documented in this file.
 
-## [2.2.0] - 2024-11-26
+## [2.2.0] - 2025-11-26
 
 ### Added - Time Series Forecasting & Enhanced Planning Agent
 
@@ -125,7 +125,7 @@ app/
 
 ---
 
-## [2.1.0] - 2024-11-24
+## [2.1.0] - 2025-11-24
 
 ### Added - Planning Agent & UX Improvements
 
@@ -273,7 +273,7 @@ app/
 
 ---
 
-## [2.0.0] - 2024-11-23
+## [2.0.0] - 2025-11-23
 
 ### Added - OpenRouter Migration
 
